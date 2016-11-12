@@ -185,19 +185,23 @@ func mul64_128(a, b uint64) Uint128 {
 	return Uint128{zhi.Uint64(), zprod.Uint64()}
 }
 
+// Hash32 hashes a buffer with the default seed and returns a uint32
 func Hash32(buffer []byte) uint32 {
 	return Hash32Salt(buffer, hashSeed)
 }
 
+// Hash32Salt hashes a buffer with the given seed and returns a uint32
 func Hash32Salt(buffer []byte, salt uint32) uint32 {
 	ret := Hash64Salt(buffer, salt)
 	return uint32(ret) ^ uint32(ret>>32)
 }
 
+// Hash64 hashes a buffer with the default seed and returns a uint64
 func Hash64(buffer []byte) uint64 {
 	return Hash64Salt(buffer, hashSeed)
 }
 
+// Hash64Salt hashes a buffer with the given uint32 seed and returns a uint64
 func Hash64Salt(buffer []byte, salt uint32) uint64 {
 	newBuffer := make([]byte, len(buffer)+4)
 	binary.BigEndian.PutUint32(newBuffer, salt)
@@ -206,6 +210,7 @@ func Hash64Salt(buffer []byte, salt uint32) uint64 {
 	return hash(newBuffer)
 }
 
+// Hash64Salt64 hashes a buffer with the given uint64 seed and returns a uint64
 func Hash64Salt64(buffer []byte, salt uint64) uint64 {
 	newBuffer := make([]byte, len(buffer)+8)
 	binary.BigEndian.PutUint64(newBuffer, salt)
@@ -224,25 +229,29 @@ func locationToBuffer(lat, lng, alt float64) []byte {
 	return buffer
 }
 
-func HashLoaction1(authTicket []byte, lat, lng, alt float64) uint32 {
+// HashLocation1 hashes a location
+func HashLocation1(authTicket []byte, lat, lng, alt float64) uint32 {
 	seed := Hash32(authTicket)
 	payload := locationToBuffer(lat, lng, alt)
 	hash := Hash32Salt(payload, seed)
 	return hash
 }
 
+// HashLocation2 hashes a location too
 func HashLocation2(lat, lng, alt float64) uint32 {
 	payload := locationToBuffer(lat, lng, alt)
 	hash := Hash32(payload)
 	return hash
 }
 
+// HashRequest hashes a request
 func HashRequest(authTicket, request []byte) uint64 {
 	seed := Hash64(authTicket)
 	hash := Hash64Salt64(request, seed)
 	return hash
 }
 
+// Hash25 returns an int64 with something
 func Hash25() int64 {
 	return -8408506833887075802
 }
