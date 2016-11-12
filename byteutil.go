@@ -1,9 +1,11 @@
 package pokelib
+
 import (
+	"crypto/rand"
 	"reflect"
 	"unsafe"
-	"crypto/rand"
 )
+
 const SIZEOF_INT32 = 4 // bytes
 func RandomBytes(n int) []byte {
 	bytes := make([]byte, n)
