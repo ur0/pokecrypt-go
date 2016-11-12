@@ -1,5 +1,5 @@
-// Package pokecrypt provides access to Pokemon Go encryption and hashing methods
-package pokecrypt
+// Package pokelib provides access to Pokemon Go encryption and hashing methods
+package pokelib
 
 import (
 	"encoding/binary"

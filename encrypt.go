@@ -1,4 +1,4 @@
-package pokecrypt
+package pokelib
 
 import "encoding/binary"
 import "fmt"
